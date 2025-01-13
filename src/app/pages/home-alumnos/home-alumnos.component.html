@@ -1,0 +1,70 @@
+<app-shared-menu [userRole]="'alumno'"></app-shared-menu>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button> <!-- Ícono del menú -->
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding" id="main-content">
+  <!-- Estado actual del trabajo -->
+  <div *ngIf="currentWork; else noWork">
+    <h2>Trabajo actual</h2>
+    <p><strong>Nombre:</strong> {{ currentWork.name }}</p>
+    <p><strong>Inicio:</strong> {{ currentWork.startTime | date:'shortTime' }}</p>
+    <p><strong>Tiempo transcurrido:</strong> {{ formatElapsedTime() }}</p>
+    <ion-button expand="full" color="danger" (click)="stopWork()">Detener Trabajo</ion-button>
+  </div>
+  <ng-template #noWork>
+    <p>No tienes un trabajo activo actualmente.</p>
+    <ion-button expand="full" color="primary" (click)="scanQR()">Escanear QR para comenzar</ion-button>
+  </ng-template>
+
+<!-- Historial de trabajos realizados -->
+<h2>
+  <ion-icon name="book-outline" style="vertical-align: middle; margin-right: 8px; color: white;"></ion-icon>
+  Historial de Trabajos
+</h2>
+<ion-list>
+  <ion-item *ngFor="let work of workHistory" (click)="openModal(work)">
+    <ion-label>
+      <h3>{{ work.name }}</h3>
+      <p>Fecha: {{ work.date }}</p>
+      <p>Hora de Inicio: {{ work.startTime }}</p>
+      <p>Horas: {{ work.hours }}</p>
+      <p>Valor: {{ calculateValue(work.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}</p>
+    </ion-label>
+    <!-- Ícono para opciones adicionales -->
+    <ion-icon name="ellipsis-horizontal" slot="end" style="font-size: 30px; color: gray;"></ion-icon>
+  </ion-item>
+</ion-list>
+
+  <!-- Modal para más información -->
+  <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()">
+    <ng-container *ngIf="selectedWork">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Detalle del Trabajo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      <ion-content>
+        <h2>{{ selectedWork.name }}</h2>
+        <p><strong>Fecha:</strong> {{ selectedWork.date }}</p>
+        <p><strong>Horas Trabajadas:</strong> {{ selectedWork.hours }}</p>
+        <p>
+          <strong>Valor:</strong>
+          {{ calculateValue(selectedWork.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}
+        </p>
+        <p><strong>Descripción:</strong> {{ selectedWork.description || 'Sin descripción' }}</p>
+      </ion-content>
+    </ng-container>
+  </ion-modal>
+</ion-content>
