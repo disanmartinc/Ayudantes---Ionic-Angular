@@ -11,8 +11,17 @@ export const routes: Routes = [
   },
   {
     path: 'home-administrativos',
-    loadComponent: () => import('./pages/home-administrativos/home-administrativos.component').then(m => m.HomeAdministrativosComponent),
+    loadComponent: () =>
+      import('./pages/home-administrativos/home-administrativos.component').then(
+        m => m.HomeAdministrativosComponent
+      ),
   },
+  {
+    path: 'alumnos/mistrabajos',
+    loadComponent: () => import('./pages/alumnos/mistrabajos/mistrabajos.component').then(m => m.MistrabajosComponent),
+  },
+  
+
   {
     path: '',
     redirectTo: 'login',

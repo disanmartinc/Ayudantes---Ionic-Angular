@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-// import { SharedMenuComponent } from '../../shared-menu/shared-menu.component';
 import { AuthService } from '../../auth.service'; // Asegúrate de ajustar la ruta al servicio de autenticación
 import { SharedMenuComponent } from '../../shared-menu/shared-menu.component';
-
+import { MenuController } from '@ionic/angular';
 @Component({
   selector: 'app-home-alumnos',
   templateUrl: './home-alumnos.component.html',
@@ -39,13 +38,13 @@ export class HomeAlumnosComponent implements OnInit {
   elapsedTime = 0; // Tiempo transcurrido en segundos
   userRole: 'alumno' | 'administrativo' | null = null; // Rol del usuario
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private menuCtrl: MenuController) {}
 
   ngOnInit() {
     // Obtén el rol del usuario desde el servicio de autenticación
     this.userRole = this.authService.getUserRole();
     console.log('Rol del usuario:', this.userRole);
-
+    this.menuCtrl.enable(true);
     // Opcional: Puedes realizar diferentes acciones dependiendo del rol
     if (this.userRole === 'alumno') {
       console.log('Configuración específica para alumnos.');
@@ -136,5 +135,6 @@ export class HomeAlumnosComponent implements OnInit {
   closeModal() {
     this.isModalOpen = false;
     this.selectedWork = null;
+    console.log('Modal cerrado. selectedWork:', this.selectedWork);
   }
 }

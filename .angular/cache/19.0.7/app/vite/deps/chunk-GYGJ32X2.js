@@ -1,14 +1,28 @@
 import {
+  MENU_BACK_BUTTON_PRIORITY,
+  OVERLAY_BACK_BUTTON_PRIORITY,
+  shouldUseCloseWatcher
+} from "./chunk-HDD6I4HK.js";
+import {
+  NgControl
+} from "./chunk-4DV6JI5R.js";
+import {
   LIFECYCLE_DID_ENTER,
   LIFECYCLE_DID_LEAVE,
   LIFECYCLE_WILL_ENTER,
   LIFECYCLE_WILL_LEAVE,
   LIFECYCLE_WILL_UNLOAD,
   createAnimation
-} from "./chunk-EJTAPLAC.js";
+} from "./chunk-YZ6UBT7T.js";
 import {
   printIonWarning
 } from "./chunk-VEV5BJ2D.js";
+import {
+  config,
+  getIonMode,
+  getPlatforms,
+  isPlatform
+} from "./chunk-IDWKFNXT.js";
 import {
   addEventListener,
   componentOnReady,
@@ -17,25 +31,11 @@ import {
   removeEventListener
 } from "./chunk-OKPK4C3D.js";
 import {
-  BACKDROP_NO_SCROLL
-} from "./chunk-4AF7KAXZ.js";
-import {
-  MENU_BACK_BUTTON_PRIORITY,
-  OVERLAY_BACK_BUTTON_PRIORITY,
-  shouldUseCloseWatcher
-} from "./chunk-HDD6I4HK.js";
-import {
-  config,
-  getIonMode,
-  getPlatforms,
-  isPlatform
-} from "./chunk-IDWKFNXT.js";
-import {
   doc
 } from "./chunk-ACUVEYEP.js";
 import {
-  NgControl
-} from "./chunk-4DV6JI5R.js";
+  BACKDROP_NO_SCROLL
+} from "./chunk-4AF7KAXZ.js";
 import {
   ActivatedRoute,
   ChildrenOutletContexts,
@@ -255,6 +255,42 @@ var IonicSafeString = class {
   }
 };
 var ENABLE_HTML_CONTENT_DEFAULT = false;
+
+// node_modules/@ionic/core/components/theme.js
+var hostContext = (selector, el) => {
+  return el.closest(selector) !== null;
+};
+var createColorClasses = (color, cssClassMap) => {
+  return typeof color === "string" && color.length > 0 ? Object.assign({
+    "ion-color": true,
+    [`ion-color-${color}`]: true
+  }, cssClassMap) : cssClassMap;
+};
+var getClassList = (classes) => {
+  if (classes !== void 0) {
+    const array = Array.isArray(classes) ? classes : classes.split(" ");
+    return array.filter((c) => c != null).map((c) => c.trim()).filter((c) => c !== "");
+  }
+  return [];
+};
+var getClassMap = (classes) => {
+  const map = {};
+  getClassList(classes).forEach((c) => map[c] = true);
+  return map;
+};
+var SCHEME = /^[a-z][a-z0-9+\-.]*:/;
+var openURL = (url, ev, direction, animation) => __async(void 0, null, function* () {
+  if (url != null && url[0] !== "#" && !SCHEME.test(url)) {
+    const router = document.querySelector("ion-router");
+    if (router) {
+      if (ev != null) {
+        ev.preventDefault();
+      }
+      return router.push(url, direction, animation);
+    }
+  }
+  return false;
+});
 
 // node_modules/@ionic/core/components/index4.js
 var baseAnimation = (isIos) => {
@@ -1026,42 +1062,6 @@ var revealOverlaysToScreenReaders = () => {
   }
 };
 var FOCUS_TRAP_DISABLE_CLASS = "ion-disable-focus-trap";
-
-// node_modules/@ionic/core/components/theme.js
-var hostContext = (selector, el) => {
-  return el.closest(selector) !== null;
-};
-var createColorClasses = (color, cssClassMap) => {
-  return typeof color === "string" && color.length > 0 ? Object.assign({
-    "ion-color": true,
-    [`ion-color-${color}`]: true
-  }, cssClassMap) : cssClassMap;
-};
-var getClassList = (classes) => {
-  if (classes !== void 0) {
-    const array = Array.isArray(classes) ? classes : classes.split(" ");
-    return array.filter((c) => c != null).map((c) => c.trim()).filter((c) => c !== "");
-  }
-  return [];
-};
-var getClassMap = (classes) => {
-  const map = {};
-  getClassList(classes).forEach((c) => map[c] = true);
-  return map;
-};
-var SCHEME = /^[a-z][a-z0-9+\-.]*:/;
-var openURL = (url, ev, direction, animation) => __async(void 0, null, function* () {
-  if (url != null && url[0] !== "#" && !SCHEME.test(url)) {
-    const router = document.querySelector("ion-router");
-    if (router) {
-      if (ev != null) {
-        ev.preventDefault();
-      }
-      return router.push(url, direction, animation);
-    }
-  }
-  return false;
-});
 
 // node_modules/@ionic/core/components/index.js
 var IonicSlides = (opts) => {
@@ -3950,6 +3950,7 @@ export {
   ConfigToken,
   NavParams,
   AngularDelegate,
+  bindLifecycleEvents,
   ProxyCmp,
   IonPopover,
   IonModal,
@@ -3978,6 +3979,11 @@ export {
    * (C) Ionic http://ionicframework.com - MIT License
    *)
 
+@ionic/core/components/theme.js:
+  (*!
+   * (C) Ionic http://ionicframework.com - MIT License
+   *)
+
 @ionic/core/components/index4.js:
   (*!
    * (C) Ionic http://ionicframework.com - MIT License
@@ -3993,14 +3999,9 @@ export {
    * (C) Ionic http://ionicframework.com - MIT License
    *)
 
-@ionic/core/components/theme.js:
-  (*!
-   * (C) Ionic http://ionicframework.com - MIT License
-   *)
-
 @ionic/core/components/index.js:
   (*!
    * (C) Ionic http://ionicframework.com - MIT License
    *)
 */
-//# sourceMappingURL=chunk-OOP5ZDFT.js.map
+//# sourceMappingURL=chunk-GYGJ32X2.js.map

@@ -56,15 +56,21 @@
       </ion-header>
   
       <ion-content>
+        <ng-container *ngIf="selectedWork">
+          <p><strong>Fecha:</strong> {{ selectedWork.date }}</p>
+          <p><strong>Hora de Inicio:</strong> {{ selectedWork.startTime }}</p>
+          <p><strong>Horas Trabajadas:</strong> {{ selectedWork.hours }}</p>
+        
         <h2>{{ selectedWork.name }}</h2>
-        <p><strong>Fecha:</strong> {{ selectedWork.date }}</p>
-        <p><strong>Horas Trabajadas:</strong> {{ selectedWork.hours }}</p>
+        
         <p>
           <strong>Valor:</strong>
           {{ calculateValue(selectedWork.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}
         </p>
         <p><strong>Descripción:</strong> {{ selectedWork.description || 'Sin descripción' }}</p>
+      </ng-container>
       </ion-content>
     </ng-container>
   </ion-modal>
+  
 </ion-content>

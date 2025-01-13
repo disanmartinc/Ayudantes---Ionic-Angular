@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, MenuController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class SharedMenuComponent implements OnChanges {
   @Input() userRole: 'alumno' | 'administrativo' = 'alumno'; // Rol del usuario
   menuOptions: Array<{ label: string; icon: string; action: string }> = []; // Opciones de menú
-  constructor(private router: Router) {}
+  constructor(private router: Router, private menuCtrl: MenuController) {}
   ngOnChanges() {
     this.updateMenuOptions();
   }
@@ -41,22 +41,25 @@ export class SharedMenuComponent implements OnChanges {
     }
   }
 
-  handleAction(action: string) {
-    console.log(`Acción seleccionada: ${action}`);
-    // Manejar las acciones aquí
-    
+  async handleAction(action: string) {
+    // Cierra el menú antes de realizar cualquier acción
+    await this.menuCtrl.close();
+
     switch (action) {
       case 'goHome':
-        // Redirigir al inicio (puedes personalizar según el rol)
-        console.log('Redirigiendo al Inicio...');
+        this.router.navigate(['/home-alumnos']);
+        break;
+      case 'viewWorks':
+        this.router.navigate(['/alumnos/mistrabajos']);
+        break;
+      case 'settings':
+        console.log('Abriendo configuración...');
         break;
       case 'logout':
-        // Acción de logout
-        console.log('Cerrando sesión...');
-        this.router.navigate(['/login']); // Redirige al login
+        this.router.navigate(['/login']);
         break;
       default:
-        console.log('Acción no reconocida.');
+        console.error('Acción no reconocida:', action);
     }
 
   }
