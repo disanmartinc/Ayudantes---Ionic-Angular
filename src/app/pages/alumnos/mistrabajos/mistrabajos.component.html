@@ -8,10 +8,16 @@
 </ion-header>
 
 <ion-content class="ion-padding" id="main-content">
+  <!-- Barra de búsqueda -->
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    placeholder="Buscar por nombre"
+    (ionInput)="filterTrabajos()">
+  </ion-searchbar>
   <!-- Verifica si hay trabajos en la lista -->
   <div *ngIf="trabajos.length > 0; else noTrabajos">
     <ion-list>
-      <ion-item *ngFor="let trabajo of trabajos">
+      <ion-item *ngFor="let trabajo of filteredTrabajos">
         <ion-label>
           <h2>{{ trabajo.name }}</h2>
           <p>Fecha: {{ trabajo.date }}</p>
@@ -21,6 +27,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
+    
   </div>
 
   <!-- Plantilla para cuando no hay trabajos -->
