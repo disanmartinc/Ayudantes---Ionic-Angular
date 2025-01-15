@@ -1,7 +1,4 @@
 import {
-  startFocusVisible
-} from "./chunk-7Q5HCUSL.js";
-import {
   isRTL
 } from "./chunk-EUT5B6DW.js";
 import {
@@ -23,6 +20,9 @@ import {
   printIonContentErrorMsg,
   resetContentScrollY
 } from "./chunk-VW7DEYFY.js";
+import {
+  startFocusVisible
+} from "./chunk-7Q5HCUSL.js";
 import {
   AngularDelegate,
   BACKDROP,
@@ -82,7 +82,11 @@ import {
   setIonicClasses,
   setOverlayId,
   toastController
-} from "./chunk-ZHDLUM4K.js";
+} from "./chunk-GOZXYOKT.js";
+import {
+  ActivatedRoute,
+  Router
+} from "./chunk-I4SQ3HLG.js";
 import {
   iosTransitionAnimation
 } from "./chunk-J4U3BZIF.js";
@@ -153,21 +157,17 @@ import {
   doc,
   win
 } from "./chunk-ACUVEYEP.js";
+import "./chunk-GOS42C6I.js";
 import {
   NG_VALUE_ACCESSOR
-} from "./chunk-4DV6JI5R.js";
-import {
-  ActivatedRoute,
-  Router
-} from "./chunk-MYTG4B3A.js";
-import "./chunk-DD22XHJI.js";
+} from "./chunk-AAJ5XJRH.js";
 import {
   CommonModule,
   DOCUMENT,
   Location,
   NgIf,
   NgTemplateOutlet
-} from "./chunk-JFGCBLU6.js";
+} from "./chunk-B6RSGQZS.js";
 import {
   APP_INITIALIZER,
   Attribute,
@@ -188,7 +188,6 @@ import {
   ViewChild,
   ViewContainerRef,
   forwardRef,
-  fromEvent,
   inject,
   makeEnvironmentProviders,
   setClassMetadata,
@@ -220,7 +219,10 @@ import {
   ɵɵrestoreView,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-LH7C6ZAH.js";
+} from "./chunk-HFWFIUXP.js";
+import {
+  fromEvent
+} from "./chunk-5ZTXZYAG.js";
 import {
   __decorate
 } from "./chunk-7IZRYL2Z.js";

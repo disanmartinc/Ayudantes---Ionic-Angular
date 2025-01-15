@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-
 import { RouterModule } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-
+import { TrabajosService } from '../../services/trabajos.service';
 
 @Component({
   selector: 'app-home-alumnos',
@@ -14,10 +13,17 @@ import { MenuController } from '@ionic/angular';
   imports: [IonicModule, CommonModule,RouterModule],
 })
 export class HomeAlumnosComponent implements OnInit {
-  constructor(private menuCtrl: MenuController) {}
+  trabajos: any[] = [];
+  constructor(private menuCtrl: MenuController, private trabajosService: TrabajosService) {}
 
   ngOnInit() {
-    this.menuCtrl.enable(true, 'main-menu')};
+    this.menuCtrl.enable(true, 'main-menu');
+
+    // Suscríbete al observable del servicio
+    this.trabajosService.trabajos$.subscribe((data) => {
+      this.trabajos = data; // Asigna la lista al componente
+    });
+  }
   ionViewWillLeave() {
     this.menuCtrl.enable(false, 'main-menu'); // Deshabilita el menú al salir
   };
@@ -26,22 +32,6 @@ export class HomeAlumnosComponent implements OnInit {
     { title: 'Inicio', icon: 'home', route: '/home-alumnos' },
     { title: 'Historial', icon: 'list', route: '/historial' },
     { title: 'Configuración', icon: 'settings', route: '/configuracion' },
-  ];
-  workHistory = [
-    {
-      name: 'Biblioteca',
-      date: '2025-01-10',
-      startTime: '10:00',
-      hours: 2,
-      description: 'Este trabajo consistió en apoyar en la biblioteca.',
-    },
-    {
-      name: 'Punto estudiantil',
-      date: '2025-01-11',
-      startTime: '12:00',
-      hours: 3,
-      description: 'Atención en el punto estudiantil.',
-    },
   ];
 
   currentWork: any = null; // Trabajo actual
@@ -85,8 +75,8 @@ export class HomeAlumnosComponent implements OnInit {
     // Calcula las horas trabajadas
     const hoursWorked = this.elapsedTime / 3600; // Convierte segundos a horas
 
-    // Agrega el trabajo al historial
-    this.workHistory.push({
+    // Agrega el trabajo al historial utilizando el servicio
+    this.trabajosService.agregarTrabajo({
       name: this.currentWork.name,
       date: this.currentWork.startTime.toISOString().split('T')[0], // Fecha en formato YYYY-MM-DD
       startTime: this.currentWork.startTime.toISOString().split('T')[1].slice(0, 5), // Hora en formato HH:mm
@@ -133,5 +123,16 @@ export class HomeAlumnosComponent implements OnInit {
     this.isModalOpen = false;
     this.selectedWork = null;
     console.log('Modal cerrado. selectedWork:', this.selectedWork);
+  }
+
+  agregarAlHistorial() {
+    const hoursWorked = 2.5; // Ejemplo: horas calculadas previamente
+    this.trabajosService.agregarTrabajo({
+      name: this.currentWork.name,
+      date: this.currentWork.startTime.toISOString().split('T')[0], // Fecha en formato YYYY-MM-DD
+      startTime: this.currentWork.startTime.toISOString().split('T')[1].slice(0, 5), // Hora en formato HH:mm
+      hours: parseFloat(hoursWorked.toFixed(2)), // Redondea las horas trabajadas
+      description: this.currentWork.description,
+    });
   }
 }

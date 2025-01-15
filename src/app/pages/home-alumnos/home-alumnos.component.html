@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button> <!-- Botón para abrir el menú -->
     </ion-buttons>
-    <ion-title>Home Alumnos</ion-title>
+    <ion-title>Mis Trabajos</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,15 +27,11 @@
     Historial de Trabajos
   </h2>
   <ion-list>
-    <ion-item *ngFor="let work of workHistory" (click)="openModal(work)">
+    <ion-item *ngFor="let work of trabajos" (click)="openModal(work)">
       <ion-label>
-        <h3>{{ work.name }}</h3>
-        <p>Fecha: {{ work.date }}</p>
-        <p>Hora de Inicio: {{ work.startTime }}</p>
-        <p>Horas: {{ work.hours }}</p>
-        <p>Valor: {{ calculateValue(work.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}</p>
+        <h2>{{ work.name }}</h2>
+        <p>{{ work.date }}</p>
       </ion-label>
-      <ion-icon name="ellipsis-horizontal" slot="end" style="font-size: 30px; color: gray;"></ion-icon>
     </ion-item>
   </ion-list>
 
