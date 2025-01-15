@@ -1,19 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../auth.service'; // Asegúrate de ajustar la ruta al servicio de autenticación
-import { SharedMenuComponent } from '../../shared-menu/shared-menu.component';
+
+import { RouterModule } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-home-alumnos',
   templateUrl: './home-alumnos.component.html',
   styleUrls: ['./home-alumnos.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule,SharedMenuComponent],
+  imports: [IonicModule, CommonModule,RouterModule],
 })
 export class HomeAlumnosComponent implements OnInit {
+  constructor(private menuCtrl: MenuController) {}
+
+  ngOnInit() {
+    this.menuCtrl.enable(true, 'main-menu')};
+  ionViewWillLeave() {
+    this.menuCtrl.enable(false, 'main-menu'); // Deshabilita el menú al salir
+  };
   pageTitle: string = 'Home Alumnos';  // Define la propiedad pageTitle
-  
+  menuItems = [
+    { title: 'Inicio', icon: 'home', route: '/home-alumnos' },
+    { title: 'Historial', icon: 'list', route: '/historial' },
+    { title: 'Configuración', icon: 'settings', route: '/configuracion' },
+  ];
   workHistory = [
     {
       name: 'Biblioteca',
@@ -36,22 +49,6 @@ export class HomeAlumnosComponent implements OnInit {
   selectedWork: any = null; // Trabajo seleccionado en el historial
   timer: any = null; // Temporizador para contar el tiempo
   elapsedTime = 0; // Tiempo transcurrido en segundos
-  userRole: 'alumno' | 'administrativo' | null = null; // Rol del usuario
-
-  constructor(private authService: AuthService,private menuCtrl: MenuController) {}
-
-  ngOnInit() {
-    // Obtén el rol del usuario desde el servicio de autenticación
-    this.userRole = this.authService.getUserRole();
-    console.log('Rol del usuario:', this.userRole);
-    this.menuCtrl.enable(true);
-    // Opcional: Puedes realizar diferentes acciones dependiendo del rol
-    if (this.userRole === 'alumno') {
-      console.log('Configuración específica para alumnos.');
-    } else if (this.userRole === 'administrativo') {
-      console.log('Rol incorrecto: redirigiendo o mostrando error.');
-    }
-  }
 
   // Calcula el valor monetario basado en las horas trabajadas
   calculateValue(hours: number): number {

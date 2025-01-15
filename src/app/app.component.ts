@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { HttpClientModule } from '@angular/common/http';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { MenuAlumnosComponent } from './components/menu-alumnos/menu-alumnos.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet, HttpClientModule],
-  standalone:true,
+  styleUrls: ['app.component.scss'],
+  standalone: true,
+  imports: [
+    IonicModule,
+    CommonModule,
+    MenuAlumnosComponent, // Asegúrate de importar aquí el componente del menú
+  ],
 })
-export class AppComponent {
-  constructor() {}
-}
+export class AppComponent {}

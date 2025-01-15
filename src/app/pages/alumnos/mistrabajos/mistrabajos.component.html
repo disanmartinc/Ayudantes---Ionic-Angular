@@ -1,11 +1,13 @@
-<app-shared-menu [userRole]="'alumno'"></app-shared-menu>
+<ion-menu content-id="main-content" side="start" id="main-menu">
+  <app-menu-alumnos></app-menu-alumnos> <!-- Menú lateral -->
+</ion-menu>
 
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button></ion-menu-button> <!-- Botón para abrir el menú -->
     </ion-buttons>
-    <ion-title>{{ pageTitle }}</ion-title>
+    <ion-title>Mis Trabajos</ion-title>
   </ion-toolbar>
 </ion-header>
 

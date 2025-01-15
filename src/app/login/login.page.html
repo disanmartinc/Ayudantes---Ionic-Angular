@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Inicio de Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-grid>
+    <ion-row class="center-content">
+      <ion-col size="12" size-sm="8" size-md="6" size-lg="4">
+        <div class="login-container">
+          <h1>Bienvenido</h1>
+          <ion-item>
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input type="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password"></ion-input>
+          </ion-item>
+          <ion-button (click)="navigateToInicio()" expand="block" class="login-button">
+            Iniciar Sesión
+          </ion-button>
+          <ion-button (click)="navigateToRegistro()" expand="block" fill="clear" class="register-button">
+            Crear Cuenta
+          </ion-button>
+         
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

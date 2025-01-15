@@ -1,0 +1,39 @@
+ion-content {
+    --background: #f8f9fa; /* Color de fondo */
+  }
+  
+  .center-content {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+  }
+  
+  .login-container {
+    background: white; /* Fondo blanco para el formulario */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center; /* Centrar contenido interno */
+  }
+  
+  h1 {
+    margin-bottom: 20px; /* Espaciado inferior */
+    color: #333; /* Color del texto */
+  }
+  
+  .login-button {
+    margin-top: 20px; /* Espaciado superior */
+  }
+  
+  .register-button {
+    margin-top: 10px; /* Espaciado entre botones */
+    color: #3880ff; /* Color del texto */
+  }
+  
+  @media (min-width: 992px) {
+    .login-container {
+      padding: 40px; /* Más espacio en pantallas grandes */
+    }
+  }
+  

@@ -1,14 +1,11 @@
-<app-shared-menu [userRole]="'alumno'"></app-shared-menu>
-
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button menu="main-menu"></ion-menu-button> <!-- Ícono del menú -->
+      <ion-menu-button></ion-menu-button> <!-- Botón para abrir el menú -->
     </ion-buttons>
-    <ion-title>{{ pageTitle }}</ion-title>
+    <ion-title>Home Alumnos</ion-title>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content class="ion-padding" id="main-content">
   <!-- Estado actual del trabajo -->
@@ -24,24 +21,23 @@
     <ion-button expand="full" color="primary" (click)="scanQR()">Escanear QR para comenzar</ion-button>
   </ng-template>
 
-<!-- Historial de trabajos realizados -->
-<h2>
-  <ion-icon name="book-outline" style="vertical-align: middle; margin-right: 8px; color: white;"></ion-icon>
-  Historial de Trabajos
-</h2>
-<ion-list>
-  <ion-item *ngFor="let work of workHistory" (click)="openModal(work)">
-    <ion-label>
-      <h3>{{ work.name }}</h3>
-      <p>Fecha: {{ work.date }}</p>
-      <p>Hora de Inicio: {{ work.startTime }}</p>
-      <p>Horas: {{ work.hours }}</p>
-      <p>Valor: {{ calculateValue(work.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}</p>
-    </ion-label>
-    <!-- Ícono para opciones adicionales -->
-    <ion-icon name="ellipsis-horizontal" slot="end" style="font-size: 30px; color: gray;"></ion-icon>
-  </ion-item>
-</ion-list>
+  <!-- Historial de trabajos realizados -->
+  <h2>
+    <ion-icon name="book-outline" style="vertical-align: middle; margin-right: 8px; color: white;"></ion-icon>
+    Historial de Trabajos
+  </h2>
+  <ion-list>
+    <ion-item *ngFor="let work of workHistory" (click)="openModal(work)">
+      <ion-label>
+        <h3>{{ work.name }}</h3>
+        <p>Fecha: {{ work.date }}</p>
+        <p>Hora de Inicio: {{ work.startTime }}</p>
+        <p>Horas: {{ work.hours }}</p>
+        <p>Valor: {{ calculateValue(work.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}</p>
+      </ion-label>
+      <ion-icon name="ellipsis-horizontal" slot="end" style="font-size: 30px; color: gray;"></ion-icon>
+    </ion-item>
+  </ion-list>
 
   <!-- Modal para más información -->
   <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()">
@@ -54,23 +50,20 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-  
+
       <ion-content>
         <ng-container *ngIf="selectedWork">
           <p><strong>Fecha:</strong> {{ selectedWork.date }}</p>
           <p><strong>Hora de Inicio:</strong> {{ selectedWork.startTime }}</p>
           <p><strong>Horas Trabajadas:</strong> {{ selectedWork.hours }}</p>
-        
-        <h2>{{ selectedWork.name }}</h2>
-        
-        <p>
-          <strong>Valor:</strong>
-          {{ calculateValue(selectedWork.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}
-        </p>
-        <p><strong>Descripción:</strong> {{ selectedWork.description || 'Sin descripción' }}</p>
-      </ng-container>
+          <h2>{{ selectedWork.name }}</h2>
+          <p>
+            <strong>Valor:</strong>
+            {{ calculateValue(selectedWork.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}
+          </p>
+          <p><strong>Descripción:</strong> {{ selectedWork.description || 'Sin descripción' }}</p>
+        </ng-container>
       </ion-content>
     </ng-container>
   </ion-modal>
-  
 </ion-content>
