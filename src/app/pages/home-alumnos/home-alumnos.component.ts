@@ -24,6 +24,7 @@ export class HomeAlumnosComponent implements OnInit {
       this.trabajos = data; // Asigna la lista al componente
     });
   }
+  
   ionViewWillLeave() {
     this.menuCtrl.enable(false, 'main-menu'); // Deshabilita el menú al salir
   };

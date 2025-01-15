@@ -33,6 +33,9 @@ export class MistrabajosComponent implements OnInit {
     });
     this.filterTrabajos(); // Filtra la lista inicialmente
   }
+  ionViewWillEnter() {
+    this.filterTrabajos(); // Filtra los trabajos al entrar al componente
+  }
   ionViewWillLeave() {
     this.menuCtrl.enable(false, 'main-menu'); // Deshabilita el menú al salir
   };

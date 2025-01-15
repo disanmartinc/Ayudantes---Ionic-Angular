@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { MenuAlumnosComponent } from './components/menu-alumnos/menu-alumnos.component';
+import { FooterAlumnosComponent } from './components/footer-alumnos/footer-alumnos.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { MenuAlumnosComponent } from './components/menu-alumnos/menu-alumnos.com
   imports: [
     IonicModule,
     CommonModule,
-    MenuAlumnosComponent, // Asegúrate de importar aquí el componente del menú
+    MenuAlumnosComponent,
+    FooterAlumnosComponent,
   ],
 })
 export class AppComponent {}

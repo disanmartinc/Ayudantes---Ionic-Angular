@@ -20,6 +20,12 @@ export const routes: Routes = [
     path: 'alumnos/mistrabajos',
     loadComponent: () => import('./pages/alumnos/mistrabajos/mistrabajos.component').then(m => m.MistrabajosComponent),
   },
+
+  {
+    path: 'perfil',
+    loadComponent: () => import('./pages/alumnos/perfil/perfil.component').then(m => m.PerfilComponent),
+  },
+
   
 
   {
