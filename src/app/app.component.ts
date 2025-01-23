@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { MenuAlumnosComponent } from './components/menu-alumnos/menu-alumnos.component';
 import { FooterAlumnosComponent } from './components/footer-alumnos/footer-alumnos.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,4 +17,6 @@ import { FooterAlumnosComponent } from './components/footer-alumnos/footer-alumn
     FooterAlumnosComponent,
   ],
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(public router: Router) {}
+}

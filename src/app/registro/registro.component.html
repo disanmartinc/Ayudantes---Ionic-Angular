@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Registro de Usuario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floation">RUT</ion-label>
+    <ion-input [(ngModel)]="rut" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floation">Nombre</ion-label>
+    <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floation">Apellido Materno</ion-label>
+    <ion-input [(ngModel)]="apellido_materno" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floation">Apellido Paterno</ion-label>
+    <ion-input [(ngModel)]="apellido_paterno" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floation">Correo</ion-label>
+    <ion-input [(ngModel)]="correo" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floation">Contraseña</ion-label>
+    <ion-input [(ngModel)]="pass" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Tipo de Usuario</ion-label>
+    <ion-select [(ngModel)]="tipousuario_id_tipo" placeholder="Selecciona un tipo">
+      <ion-select-option *ngFor="let tipo of tiposUsuario" [value]="tipo.id_tipo">
+        {{ tipo.nomtusuario }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button expand="full" (click)="registrarUsuario()">Registrar Usuario</ion-button>
+</ion-content>

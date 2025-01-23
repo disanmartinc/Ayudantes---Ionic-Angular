@@ -9,7 +9,9 @@ import { registerLocaleData } from '@angular/common'; // Importar registro de lo
 import localeEsCL from '@angular/common/locales/es-CL'; // Localización para Chile
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
-
+import { provideHttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 addIcons(allIcons);
 
 // Registrar localización para Chile
@@ -21,6 +23,7 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideHttpClient()
   ],
 })
   .catch(err => {

@@ -1,33 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private userRole: 'alumno' | 'administrativo' | null = null;
+  private apiUrl = 'http://localhost:3000'; // Cambia según tu backend
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-// Simula el inicio de sesión basado únicamente en el correo
-login(email: string, password: string): boolean {
-  if (email === 'alumno@duoc.cl') {
-    this.userRole = 'alumno'; // Asigna el rol de alumno
-    return true;
-  } else if (email === 'adm@duoc.cl') {
-    this.userRole = 'administrativo'; // Asigna el rol de administrativo
-    return true;
-  }
-
-  console.error('Correo no reconocido'); // Mensaje de error para correos no válidos
-  return false; // Si el correo no coincide, la autenticación falla
-}
-  // Devuelve el rol del usuario
-  getUserRole(): 'alumno' | 'administrativo' | null {
-    return this.userRole;
-  }
-
-  // Cierra sesión
-  logout(): void {
-    this.userRole = null;
+  login(correo: string, pass: string): Observable<any> {
+    const credentials = { correo, pass };
+    return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 }

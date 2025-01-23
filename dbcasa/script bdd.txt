@@ -1,0 +1,110 @@
+-- Generado por Oracle SQL Developer Data Modeler 23.1.0.087.0806
+--   en:        2025-01-21 15:55:59 CLST
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+-- predefined type, no DDL - MDSYS.SDO_GEOMETRY
+
+-- predefined type, no DDL - XMLTYPE
+
+CREATE TABLE tipousuario (
+    id_tipo     INTEGER NOT NULL,
+    nomtusuario VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tipousuario ADD CONSTRAINT tipousuario_pk PRIMARY KEY ( id_tipo,
+                                                                    nomtusuario );
+
+CREATE TABLE trabajo (
+    idtrabajo     INTEGER NOT NULL,
+    nombretrabajo VARCHAR2(30) NOT NULL,
+    desctrabajo   VARCHAR2(30),
+    ubicacion     VARCHAR2(30) NOT NULL
+);
+
+ALTER TABLE trabajo ADD CONSTRAINT trabajo_pk PRIMARY KEY ( idtrabajo );
+
+CREATE TABLE usuario (
+    id_user                 INTEGER NOT NULL,
+    nombre                  VARCHAR2(30) NOT NULL,
+    apellido_paterno        VARCHAR2(30) NOT NULL,
+    apellido_materno        VARCHAR2(30) NOT NULL,
+    correo                  VARCHAR2(30) NOT NULL,
+    pass                    VARCHAR2(30) NOT NULL,
+    tipousuario_id_tipo     INTEGER NOT NULL,
+    tipousuario_nomtusuario VARCHAR2(20) NOT NULL,
+    nomadmin                VARCHAR2(20)
+);
+
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( id_user );
+
+CREATE TABLE usuariotrabajo (
+    idusuariotrabajo  INTEGER NOT NULL,
+    fechainicio       DATE NOT NULL,
+    fechatermino      DATE NOT NULL,
+    trabajo_idtrabajo INTEGER NOT NULL,
+    usuario_id_user   INTEGER NOT NULL
+);
+
+ALTER TABLE usuariotrabajo ADD CONSTRAINT usuariotrabajo_pk PRIMARY KEY ( idusuariotrabajo );
+
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( tipousuario_id_tipo,
+                                                        tipousuario_nomtusuario )
+        REFERENCES tipousuario ( id_tipo,
+                                 nomtusuario );
+
+ALTER TABLE usuariotrabajo
+    ADD CONSTRAINT usuariotrabajo_trabajo_fk FOREIGN KEY ( trabajo_idtrabajo )
+        REFERENCES trabajo ( idtrabajo );
+
+ALTER TABLE usuariotrabajo
+    ADD CONSTRAINT usuariotrabajo_usuario_fk FOREIGN KEY ( usuario_id_user )
+        REFERENCES usuario ( id_user );
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                             4
+-- CREATE INDEX                             0
+-- ALTER TABLE                              7
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           0
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0

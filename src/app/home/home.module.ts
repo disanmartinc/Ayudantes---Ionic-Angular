@@ -6,14 +6,15 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
+import { RegistroComponent } from '../registro/registro.component';
 
 @NgModule({
-  imports: [
+ imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,RegistroComponent]
 })
 export class HomePageModule {}
