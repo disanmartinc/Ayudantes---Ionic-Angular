@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { MenuAlumnosComponent } from './components/menu-alumnos/menu-alumnos.component';
-import { FooterAlumnosComponent } from './components/footer-alumnos/footer-alumnos.component';
-import { Router } from '@angular/router';
-
+import { RouterModule } from '@angular/router';
+import { MenuComponent } from './components/menu/menu.component';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,10 +11,21 @@ import { Router } from '@angular/router';
   imports: [
     IonicModule,
     CommonModule,
-    MenuAlumnosComponent,
-    FooterAlumnosComponent,
+    RouterModule,
+    MenuComponent,
+
   ],
 })
 export class AppComponent {
-  constructor(public router: Router) {}
+  constructor() {
+    document.addEventListener('ionMenuWillClose', () => {
+      const menu = document.querySelector('ion-menu');
+      if (menu) menu.setAttribute('aria-hidden', 'true');
+    });
+
+    document.addEventListener('ionMenuWillOpen', () => {
+      const menu = document.querySelector('ion-menu');
+      if (menu) menu.removeAttribute('aria-hidden');
+    });
+  }
 }

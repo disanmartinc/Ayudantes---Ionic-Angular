@@ -84,25 +84,19 @@ app.get('/tipousuario', (req, res) => {
 //Endpoint de login
 app.post('/login', (req, res) => {
     const { correo, pass } = req.body;
-    const query = `
-        SELECT id_user, rut, nombre, apellido_paterno, apellido_materno, correo, tipousuario_id_tipo
-        FROM usuario
-        WHERE correo = ? AND pass = ?
-    `;
+  
+    const query = 'SELECT * FROM usuario WHERE correo = ? AND pass = ?';
+  
     db.query(query, [correo, pass], (err, results) => {
-        if (err) {
-            console.error('Error al verificar el login:', err);
-            return res.status(500).send('Error en el servidor');
-        }
-
-        if (results.length > 0) {
-            const user = results[0];
-            res.status(200).json({
-                message: 'Inicio de sesión exitoso',
-                user: user, // Devuelve todos los datos del usuario
-            });
-        } else {
-            res.status(401).send('Correo o contraseña incorrectos');
-        }
+      if (err) {
+        return res.status(500).json({ message: 'Error en el servidor' });
+      }
+      if (results.length === 0) {
+        return res.status(401).json({ message: 'Correo o contraseña incorrectos' });
+      }
+  
+      const user = results[0]; // Obtén el primer resultado
+      res.status(200).json({ user }); // Devuelve el usuario al cliente
     });
-});
+  });
+  

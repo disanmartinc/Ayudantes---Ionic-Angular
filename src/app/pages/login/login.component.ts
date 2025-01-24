@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../auth.service'; // Importa el servicio de autenticación
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,18 +32,23 @@ export class LoginComponent implements OnInit {
   onLogin() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
+      const loginData = {
+        correo: email,
+        pass: password,
+      };
   
-      this.authService.login(email, password).subscribe(
+      this.authService.login(loginData.correo, loginData.pass).subscribe(
         (response) => {
-          console.log('Inicio de sesión exitoso:', response);
+          const user = response.user;
+          console.log('Usuario logueado:', user);
   
           // Guarda el usuario en localStorage
-          localStorage.setItem('user', JSON.stringify(response.user));
+          localStorage.setItem('user', JSON.stringify(user));
   
-          // Redirige según el campo tipousuario_id_tipo
-          if (response.user.tipousuario_id_tipo === 1) {
+          // Redirige según el rol
+          if (user.tipousuario_id_tipo === 1) {
             this.router.navigate(['/home-alumnos']);
-          } else if (response.user.tipousuario_id_tipo === 2) {
+          } else if (user.tipousuario_id_tipo === 2) {
             this.router.navigate(['/home-administrativos']);
           } else {
             alert('Tipo de usuario no reconocido');
@@ -51,18 +56,16 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           console.error('Error al iniciar sesión:', error);
-          alert('Correo o contraseña incorrectos. Por favor, intenta nuevamente.');
+          alert('Correo o contraseña incorrectos.');
         }
       );
     } else {
       alert('Por favor, completa todos los campos correctamente.');
     }
   }
+
   logout() {
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    this.authService.clearUser(); // Limpia el estado del usuario
+    this.router.navigate(['/login']); // Redirige al login
   }
-  
-
-
 }

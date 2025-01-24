@@ -1,0 +1,17 @@
+<ion-menu content-id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <!-- Opciones dinámicas -->
+      <ion-item *ngFor="let item of menuItems" [routerLink]="item.path">
+        {{ item.label }}
+      </ion-item>
+      <!-- Botón de logout -->
+      <ion-item (click)="logout()">Logout</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>

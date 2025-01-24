@@ -1,11 +1,7 @@
 <ion-app>
-  <!-- Menú lateral -->
-  <ion-menu content-id="main-content" side="start" id="main-menu">
-    <app-menu-alumnos></app-menu-alumnos>
-  </ion-menu>
+  <!-- Incluye el componente de menú -->
+  <app-menu></app-menu>
 
-  <!-- Contenido principal -->
+  <!-- Contenido principal de la aplicación -->
   <ion-router-outlet id="main-content"></ion-router-outlet>
-  <!-- Footer global -->
-  <app-footer-alumnos></app-footer-alumnos>
 </ion-app>
