@@ -1,8 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Registro de Usuario
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,12 +17,12 @@
     <ion-input [(ngModel)]="nombre" type="text"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floation">Apellido Materno</ion-label>
-    <ion-input [(ngModel)]="apellido_materno" type="text"></ion-input>
-  </ion-item>
-  <ion-item>
     <ion-label position="floation">Apellido Paterno</ion-label>
     <ion-input [(ngModel)]="apellido_paterno" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floation">Apellido Materno</ion-label>
+    <ion-input [(ngModel)]="apellido_materno" type="text"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floation">Correo</ion-label>

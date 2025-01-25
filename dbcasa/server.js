@@ -100,3 +100,40 @@ app.post('/login', (req, res) => {
     });
   });
   
+// Endpoint para registrar trabajos
+app.post('/registrartrabajos', (req, res) => {
+    const { nombretrabajo, desctrabajo, ubicacion, id_creador } = req.body;
+
+    // Validar que los datos requeridos estén presentes
+    if (!nombretrabajo || !desctrabajo || !ubicacion || !id_creador) {
+        return res.status(400).json({
+            message: 'Faltan datos obligatorios para registrar el trabajo.',
+            receivedData: req.body
+        });
+    }
+
+    // Consulta SQL para insertar el trabajo
+    const query = `
+        INSERT INTO trabajo (nombretrabajo, desctrabajo, ubicacion, id_creador) 
+        VALUES (?, ?, ?, ?)
+    `;
+
+    // Valores para la consulta
+    const values = [nombretrabajo, desctrabajo, ubicacion, id_creador];
+
+    // Ejecutar la consulta
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Error al registrar el trabajo:', err);
+            return res.status(500).json({
+                message: 'Error al registrar el trabajo.',
+                error: err
+            });
+        }
+
+        res.status(201).json({
+            message: 'Trabajo registrado con éxito.',
+            trabajoId: result.insertId // Devuelve el ID del trabajo recién insertado
+        });
+    });
+});

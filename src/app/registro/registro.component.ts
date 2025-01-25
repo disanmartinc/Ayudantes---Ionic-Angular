@@ -13,7 +13,11 @@ import { CommonModule } from '@angular/common';
   imports:[IonicModule,FormsModule,HttpClientModule,CommonModule],
   
 })
+
+
 export class RegistroComponent  implements OnInit {
+
+  pageTitle = 'Registro';
   rut: string = '';
   nombre: string = '';
   apellido_paterno: string = '';

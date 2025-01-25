@@ -36,6 +36,26 @@ export const routes: Routes = [
   },
 
   {
+    path: 'trabajos',
+    canActivate: [AuthGuard, RoleGuard], // Protegemos con ambos guards
+    data: { role: 2 }, // Solo accesible para usuarios tipo 2 (Administrador)
+    loadComponent: () =>
+      import('./pages/administrativos/trabajos/trabajos.component').then(
+        (m) => m.TrabajosComponent
+      ),
+  },
+
+  {
+    path: 'registrartrabajo',
+    canActivate: [AuthGuard, RoleGuard], // Protegemos con ambos guards
+    data: { role: 2 }, // Solo accesible para usuarios tipo 2 (Administrador)
+    loadComponent: () =>
+      import('./pages/administrativos/registrartrabajo/registrartrabajo.component').then(
+        (m) => m.RegistrarTrabajoComponent
+      ),
+  },
+
+  {
     path: 'perfil',
     loadComponent: () => import('./pages/alumnos/perfil/perfil.component').then(m => m.PerfilComponent),
   },
