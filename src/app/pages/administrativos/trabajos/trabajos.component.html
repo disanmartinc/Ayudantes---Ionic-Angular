@@ -5,8 +5,17 @@
     </ion-buttons>
     <ion-title>{{ pageTitle }}</ion-title>
   </ion-toolbar>
-  
 </ion-header>
-<ion-content id="main-content" class="ion-padding">
-  <!-- Contenido del trabajos -->
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let trabajo of trabajos">
+      <ion-label>
+        <h2>{{ trabajo.nombretrabajo }}</h2>
+        <p>{{ trabajo.desctrabajo }}</p>
+        <p>Ubicación: {{ trabajo.ubicacion }}</p>
+        <p>ID del creador: {{ trabajo.id_creador }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -1,23 +1,30 @@
-<form (ngSubmit)="registrar()" #registroForm="ngForm">
-  <ion-item>
-    <ion-label position="floating">Nombre del trabajo</ion-label>
-    <ion-input type="text" name="nombretrabajo" [(ngModel)]="nuevoTrabajo.nombretrabajo" required></ion-input>
-  </ion-item>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-item>
-    <ion-label position="floating">Descripción</ion-label>
-    <ion-input type="text" name="desctrabajo" [(ngModel)]="nuevoTrabajo.desctrabajo" required></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating">Ubicación</ion-label>
-    <ion-input type="text" name="ubicacion" [(ngModel)]="nuevoTrabajo.ubicacion" required></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating">ID del creador</ion-label>
-    <ion-input type="number" name="id_creador" [(ngModel)]="nuevoTrabajo.id_creador" required></ion-input>
-  </ion-item>
-
-  <ion-button expand="block" type="submit">Registrar Trabajo</ion-button>
-</form>
+<ion-content class="ion-padding">
+  <form (ngSubmit)="registrar()" #registroForm="ngForm">
+    <ion-item>
+      <ion-label position="floating">Nombre del trabajo</ion-label>
+      <ion-input type="text" name="nombretrabajo" [(ngModel)]="nuevoTrabajo.nombretrabajo" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input type="text" name="desctrabajo" [(ngModel)]="nuevoTrabajo.desctrabajo" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Ubicación</ion-label>
+      <ion-input type="text" name="ubicacion" [(ngModel)]="nuevoTrabajo.ubicacion" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">ID del creador</ion-label>
+      <ion-input type="number" name="id_creador" [(ngModel)]="nuevoTrabajo.id_creador" required></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit">Registrar Trabajo</ion-button>
+  </form>
+</ion-content>

@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
   imports: [FormsModule, IonicModule]
 })
 export class RegistrarTrabajoComponent {
+  pageTitle = 'Home Administrativos';
   // Objeto enlazado al formulario
   nuevoTrabajo: Trabajo = {
     nombretrabajo: '',

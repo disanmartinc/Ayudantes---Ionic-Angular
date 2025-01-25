@@ -137,3 +137,20 @@ app.post('/registrartrabajos', (req, res) => {
         });
     });
 });
+
+// Endpoint para listar todos los trabajos
+app.get('/trabajos', (req, res) => {
+    const query = 'SELECT * FROM trabajo'; // Consulta SQL para obtener todos los trabajos
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los trabajos:', err);
+            return res.status(500).json({
+                message: 'Error al obtener los trabajos.',
+                error: err.message
+            });
+        }
+
+        res.status(200).json(results); // Devuelve los trabajos como un JSON
+    });
+});
