@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { RegistrarTrabajoService,Trabajo } from 'src/app/services/registrartrabajo/registrartrabajo.service';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registrartrabajo',
   templateUrl: './registrartrabajo.component.html',
   styleUrls: ['./registrartrabajo.component.scss'],
   standalone:true,
-  imports: [FormsModule, IonicModule]
+  imports: [FormsModule, IonicModule, CommonModule]
 })
 export class RegistrarTrabajoComponent {
   pageTitle = 'Home Administrativos';
@@ -20,7 +21,24 @@ export class RegistrarTrabajoComponent {
     id_creador: 0,
   };
 
+  usuarios: any[] = []; // Almacena los usuarios tipo 2
+
   constructor(private registrarTrabajoService: RegistrarTrabajoService) {}
+
+  ngOnInit() {
+    this.cargarUsuariosTipo2();
+  }
+
+  cargarUsuariosTipo2() {
+    this.registrarTrabajoService.obtenerUsuariosTipo2().subscribe(
+      (data) => {
+        this.usuarios = data; // Almacena los usuarios en la variable
+      },
+      (error) => {
+        console.error('Error al obtener los usuarios tipo 2:', error);
+      }
+    );
+  }
 
   registrar() {
     this.registrarTrabajoService.registrarTrabajo(this.nuevoTrabajo).subscribe(

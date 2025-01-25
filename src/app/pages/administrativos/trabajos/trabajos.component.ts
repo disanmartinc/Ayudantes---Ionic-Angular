@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TrabajosService, Trabajo } from 'src/app/services/trabajos/trabajos.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './trabajos.component.html',
   styleUrls: ['./trabajos.component.scss'],
   standalone:true,
-  imports:[IonicModule,CommonModule]
+  imports:[IonicModule,CommonModule,RouterModule]
 
 })
 export class TrabajosComponent implements OnInit {

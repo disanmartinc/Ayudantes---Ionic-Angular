@@ -8,6 +8,8 @@ export interface Trabajo {
   desctrabajo: string;
   ubicacion: string;
   id_creador: number;
+  creador_nombre: string;
+  creador_apellido: string;
 }
 
 @Injectable({

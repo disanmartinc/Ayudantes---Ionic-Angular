@@ -19,6 +19,11 @@ export class RegistrarTrabajoService {
 
   constructor(private http: HttpClient) {}
 
+  
+  obtenerUsuariosTipo2(): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:3000/usuarios/tipo2`); // Ajusta la URL aquí
+  }
+  
   // Método para registrar un trabajo
   registrarTrabajo(trabajo: Trabajo): Observable<any> {
     return this.http.post<any>(this.apiUrl, trabajo); // Tipa la respuesta si sabes el formato

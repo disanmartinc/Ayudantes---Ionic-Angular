@@ -140,7 +140,18 @@ app.post('/registrartrabajos', (req, res) => {
 
 // Endpoint para listar todos los trabajos
 app.get('/trabajos', (req, res) => {
-    const query = 'SELECT * FROM trabajo'; // Consulta SQL para obtener todos los trabajos
+    const query = `
+        SELECT 
+            t.idtrabajo, 
+            t.nombretrabajo, 
+            t.desctrabajo, 
+            t.ubicacion, 
+            t.id_creador, 
+            u.nombre AS creador_nombre, 
+            u.apellido_paterno AS creador_apellido
+        FROM trabajo t
+        JOIN usuario u ON t.id_creador = u.id_user
+    `;
 
     db.query(query, (err, results) => {
         if (err) {
@@ -152,5 +163,26 @@ app.get('/trabajos', (req, res) => {
         }
 
         res.status(200).json(results); // Devuelve los trabajos como un JSON
+    });
+});
+
+// Endpoint para ver usuarios admins
+app.get('/usuarios/tipo2', (req, res) => {
+    const query = `
+        SELECT id_user, nombre, apellido_paterno 
+        FROM usuario 
+        WHERE tipousuario_id_tipo = 2
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los usuarios tipo 2:', err);
+            return res.status(500).json({
+                message: 'Error al obtener los usuarios tipo 2.',
+                error: err.message
+            });
+        }
+
+        res.status(200).json(results); // Devuelve los usuarios tipo 2 como JSON
     });
 });
