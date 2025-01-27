@@ -10,19 +10,16 @@ import {
   LIFECYCLE_WILL_LEAVE,
   LIFECYCLE_WILL_UNLOAD,
   createAnimation
-} from "./chunk-HXYDS2LW.js";
+} from "./chunk-YZ6UBT7T.js";
+import {
+  printIonWarning
+} from "./chunk-VEV5BJ2D.js";
 import {
   config,
   getIonMode,
   getPlatforms,
   isPlatform
 } from "./chunk-IDWKFNXT.js";
-import {
-  doc
-} from "./chunk-ACUVEYEP.js";
-import {
-  printIonWarning
-} from "./chunk-VEV5BJ2D.js";
 import {
   addEventListener,
   componentOnReady,
@@ -31,8 +28,14 @@ import {
   removeEventListener
 } from "./chunk-OKPK4C3D.js";
 import {
+  doc
+} from "./chunk-ACUVEYEP.js";
+import {
   BACKDROP_NO_SCROLL
 } from "./chunk-4AF7KAXZ.js";
+import {
+  NgControl
+} from "./chunk-AAJ5XJRH.js";
 import {
   ActivatedRoute,
   ChildrenOutletContexts,
@@ -42,9 +45,6 @@ import {
   RouterLink,
   UrlSerializer
 } from "./chunk-3SBKQPZF.js";
-import {
-  NgControl
-} from "./chunk-AAJ5XJRH.js";
 import {
   DOCUMENT,
   Location,
@@ -4005,4 +4005,4 @@ export {
    * (C) Ionic http://ionicframework.com - MIT License
    *)
 */
-//# sourceMappingURL=chunk-OWBY6SO3.js.map
+//# sourceMappingURL=chunk-CTPMHCGM.js.map

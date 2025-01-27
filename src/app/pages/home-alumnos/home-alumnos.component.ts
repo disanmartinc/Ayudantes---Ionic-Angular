@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MenuController } from '@ionic/angular';
-import { TrabajosService } from '../../services/trabajos.service';
+import { HttpClient } from '@angular/common/http';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home-alumnos',
@@ -12,128 +12,126 @@ import { TrabajosService } from '../../services/trabajos.service';
   standalone: true,
   imports: [IonicModule, CommonModule,RouterModule],
 })
-export class HomeAlumnosComponent implements OnInit {
-  trabajos: any[] = [];
-  constructor(private menuCtrl: MenuController, private trabajosService: TrabajosService) {}
-
-  ngOnInit() {
-    this.menuCtrl.enable(true, 'main-menu');
-
-    // Suscríbete al observable del servicio
-    this.trabajosService.trabajos$.subscribe((data) => {
-      this.trabajos = data; // Asigna la lista al componente
-    });
+export class HomeAlumnosComponent implements OnInit{
+  pageTitle = 'Home Alumnos';
+  isModalOpen = false;
+  trabajos: any[] = []; // Lista de trabajos disponibles
+  trabajoActivo: any = null; // Trabajo actualmente activo
+  tiempoInicio: number = 0; // Timestamp de inicio del trabajo
+  constructor (private http: HttpClient, private alertController: AlertController) {}
+  ngOnInit(){
+    this.obtenerTrabajosDisponibles();
   }
-  
-  ionViewWillLeave() {
-    this.menuCtrl.enable(false, 'main-menu'); // Deshabilita el menú al salir
-  };
-  pageTitle: string = 'Home Alumnos';  // Define la propiedad pageTitle
-  menuItems = [
-    { title: 'Inicio', icon: 'home', route: '/home-alumnos' },
-    { title: 'Historial', icon: 'list', route: '/historial' },
-    { title: 'Configuración', icon: 'settings', route: '/configuracion' },
-  ];
+// Abrir el modal
+openModal() {
+  this.isModalOpen = true;
+}
 
-  currentWork: any = null; // Trabajo actual
-  isModalOpen = false; // Control de la ventana modal
-  selectedWork: any = null; // Trabajo seleccionado en el historial
-  timer: any = null; // Temporizador para contar el tiempo
-  elapsedTime = 0; // Tiempo transcurrido en segundos
+// Cerrar el modal
+closeModal() {
+  this.isModalOpen = false;
+}
 
-  // Calcula el valor monetario basado en las horas trabajadas
-  calculateValue(hours: number): number {
-    return hours * 2100; // Multiplica las horas por 2100
-  }
-
-  // Inicia un trabajo tras escanear el QR
-  scanQR() {
-    if (this.currentWork) {
-      console.log('Ya tienes un trabajo en curso.');
-      return;
+// Obtener trabajos disponibles del backend
+obtenerTrabajosDisponibles() {
+  this.http.get('http://localhost:3000/trabajos-disponibles').subscribe(
+    (data: any) => {
+      this.trabajos = data;
+    },
+    (error) => {
+      console.error('Error al obtener trabajos:', error);
     }
+  );
+}
 
-    this.currentWork = {
-      name: 'Trabajo Escaneado',
-      startTime: new Date(),
-      description: 'Trabajo iniciado tras escanear el QR.',
-    };
+startTrabajo(trabajo: any) {
+  console.log('Objeto trabajo recibido:', trabajo); // Verifica el objeto
 
-    // Reinicia el tiempo transcurrido y comienza el temporizador
-    this.elapsedTime = 0;
-    this.startTimer();
-
-    console.log('Trabajo iniciado:', this.currentWork);
+  const userData = localStorage.getItem('user');
+  if (!userData) {
+    console.error('No se encontró el objeto "user" en localStorage');
+    return;
   }
 
-  // Detiene el trabajo actual y lo guarda en el historial
-  stopWork() {
-    if (!this.currentWork) {
-      console.log('No hay un trabajo activo para detener.');
-      return;
+  const parsedUser = JSON.parse(userData);
+  const usuarioId = parsedUser.id_user;
+
+  if (!usuarioId) {
+    console.error('No se encontró "id_user" en el objeto "user" del localStorage');
+    return;
+  }
+
+  this.http.post('http://localhost:3000/usuario-trabajo', {
+    usuarioId,
+    trabajoId: trabajo.idtrabajo,
+    accion: 'iniciar',
+  }).subscribe(
+    async () => {
+      this.trabajoActivo = trabajo;
+      this.tiempoInicio = Date.now(); // Guardar el tiempo actual
+      this.isModalOpen = false;
+      const alert = await this.alertController.create({
+        header: 'Trabajo Iniciado',
+        message: `Has iniciado el trabajo: ${trabajo.nombretrabajo}`,
+        buttons: ['OK'],
+      });
+      await alert.present();
+    },
+    (error) => {
+      console.error('Error al iniciar el trabajo:', error);
     }
+  );
+}
 
-    // Calcula las horas trabajadas
-    const hoursWorked = this.elapsedTime / 3600; // Convierte segundos a horas
 
-    // Agrega el trabajo al historial utilizando el servicio
-    this.trabajosService.agregarTrabajo({
-      name: this.currentWork.name,
-      date: this.currentWork.startTime.toISOString().split('T')[0], // Fecha en formato YYYY-MM-DD
-      startTime: this.currentWork.startTime.toISOString().split('T')[1].slice(0, 5), // Hora en formato HH:mm
-      hours: parseFloat(hoursWorked.toFixed(2)), // Redondea las horas trabajadas a 2 decimales
-      description: this.currentWork.description,
-    });
 
-    console.log('Trabajo detenido:', this.currentWork);
-
-    // Limpia el trabajo actual y detiene el temporizador
-    this.currentWork = null;
-    clearInterval(this.timer);
+// Detener un trabajo activo
+stopTrabajo() {
+  const userData = localStorage.getItem('user');
+  if (!userData) {
+    console.error('No se encontró el objeto "user" en localStorage');
+    return;
   }
 
-  // Inicia el temporizador para contar el tiempo transcurrido
-  startTimer() {
-    this.timer = setInterval(() => {
-      this.elapsedTime++;
-    }, 1000); // Incrementa cada segundo
+  const parsedUser = JSON.parse(userData);
+  const usuarioId = parsedUser.id_user;
+
+  if (!usuarioId) {
+    console.error('No se encontró "id_user" en el objeto "user" del localStorage');
+    return;
   }
 
-  // Formatea el tiempo transcurrido en HH:MM:SS
-  formatElapsedTime(): string {
-    const hours = Math.floor(this.elapsedTime / 3600);
-    const minutes = Math.floor((this.elapsedTime % 3600) / 60);
-    const seconds = this.elapsedTime % 60;
-
-    return `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
+  if (!this.trabajoActivo) {
+    console.error('No hay trabajo activo para detener.');
+    return;
   }
 
-  // Añade un cero a la izquierda si el número es menor a 10
-  private padNumber(num: number): string {
-    return num < 10 ? `0${num}` : `${num}`;
-  }
+  console.log('Datos enviados al servidor:', {
+    usuarioId,
+    trabajoId: this.trabajoActivo.idtrabajo,
+    accion: 'detener',
+  });
 
-  // Abre la ventana modal con información del trabajo seleccionado
-  openModal(work: any) {
-    this.selectedWork = work;
-    this.isModalOpen = true;
-  }
+  this.http.post('http://localhost:3000/usuario-trabajo', {
+    usuarioId,
+    trabajoId: this.trabajoActivo.idtrabajo,
+    accion: 'detener',
+  }).subscribe(
+    async () => {
+      this.trabajoActivo = null; // Resetear el trabajo activo
+      this.tiempoInicio = 0;
+      const alert = await this.alertController.create({
+        header: 'Trabajo Detenido',
+        message: 'El trabajo ha sido detenido correctamente.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    },
+    (error) => {
+      console.error('Error al detener el trabajo:', error);
+    }
+  );
+}
 
-  // Cierra la ventana modal
-  closeModal() {
-    this.isModalOpen = false;
-    this.selectedWork = null;
-    console.log('Modal cerrado. selectedWork:', this.selectedWork);
-  }
 
-  agregarAlHistorial() {
-    const hoursWorked = 2.5; // Ejemplo: horas calculadas previamente
-    this.trabajosService.agregarTrabajo({
-      name: this.currentWork.name,
-      date: this.currentWork.startTime.toISOString().split('T')[0], // Fecha en formato YYYY-MM-DD
-      startTime: this.currentWork.startTime.toISOString().split('T')[1].slice(0, 5), // Hora en formato HH:mm
-      hours: parseFloat(hoursWorked.toFixed(2)), // Redondea las horas trabajadas
-      description: this.currentWork.description,
-    });
-  }
 }

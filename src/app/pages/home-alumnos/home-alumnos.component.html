@@ -1,69 +1,47 @@
 <ion-header>
   <ion-toolbar>
-    <!-- Botón para abrir el menú -->
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Mis Trabajos</ion-title>
+    <ion-title>{{ pageTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" id="main-content">
-  <!-- Estado actual del trabajo -->
-  <div *ngIf="currentWork; else noWork">
-    <h2>Trabajo actual</h2>
-    <p><strong>Nombre:</strong> {{ currentWork.name }}</p>
-    <p><strong>Inicio:</strong> {{ currentWork.startTime | date:'shortTime' }}</p>
-    <p><strong>Tiempo transcurrido:</strong> {{ formatElapsedTime() }}</p>
-    <ion-button expand="full" color="danger" (click)="stopWork()">Detener Trabajo</ion-button>
+<ion-content id="main-content" class="ion-padding">
+  <!-- Botón dinámico -->
+  <div class="button-container">
+    <!-- Mostrar el botón de "Nuevo trabajo" si no hay un trabajo activo -->
+    <ion-button *ngIf="!trabajoActivo" (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+      Nuevo trabajo
+    </ion-button>
+
+    <!-- Mostrar el botón de "Detener trabajo" si hay un trabajo activo -->
+    <ion-button *ngIf="trabajoActivo" (click)="stopTrabajo()" color="danger">
+      <ion-icon name="stop"></ion-icon>
+      Detener trabajo
+    </ion-button>
   </div>
-  <ng-template #noWork>
-    <p>No tienes un trabajo activo actualmente.</p>
-    <ion-button expand="full" color="primary" (click)="scanQR()">Escanear QR para comenzar</ion-button>
-  </ng-template>
 
-  <!-- Historial de trabajos realizados -->
-  <h2>
-    <ion-icon
-      name="book-outline"
-      style="vertical-align: middle; margin-right: 8px; color: white;"
-    ></ion-icon>
-    Historial de Trabajos
-  </h2>
-  <ion-list>
-    <ion-item *ngFor="let work of trabajos" (click)="openModal(work)">
-      <ion-label>
-        <h2>{{ work.name }}</h2>
-        <p>{{ work.date }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
-  <!-- Modal para más información -->
+  <!-- Modal para seleccionar un trabajo -->
   <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()">
-    <ng-container *ngIf="selectedWork">
+    <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Detalle del Trabajo</ion-title>
+          <ion-title>Seleccionar Trabajo</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="closeModal()">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-
       <ion-content>
-        <ng-container *ngIf="selectedWork">
-          <p><strong>Fecha:</strong> {{ selectedWork.date }}</p>
-          <p><strong>Hora de Inicio:</strong> {{ selectedWork.startTime }}</p>
-          <p><strong>Horas Trabajadas:</strong> {{ selectedWork.hours }}</p>
-          <h2>{{ selectedWork.name }}</h2>
-          <p>
-            <strong>Valor:</strong>
-            {{ calculateValue(selectedWork.hours) | currency:'CLP':'symbol-narrow':'1.0-0' }}
-          </p>
-          <p><strong>Descripción:</strong> {{ selectedWork.description || 'Sin descripción' }}</p>
-        </ng-container>
+        <ion-list>
+          <ion-item *ngFor="let trabajo of trabajos" (click)="startTrabajo(trabajo)">
+            {{ trabajo.nombretrabajo }}
+          </ion-item>
+        </ion-list>
       </ion-content>
-    </ng-container>
+    </ng-template>
   </ion-modal>
+  
 </ion-content>

@@ -186,3 +186,69 @@ app.get('/usuarios/tipo2', (req, res) => {
         res.status(200).json(results); // Devuelve los usuarios tipo 2 como JSON
     });
 });
+
+// Endpoint para obtener trabajos disponibles para alumnos
+app.get('/trabajos-disponibles', (req, res) => {
+    const query = 'SELECT idtrabajo, nombretrabajo FROM trabajo';
+  
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error al obtener los nombres de trabajos:', err.stack);
+        return res.status(500).json({ error: 'Error al obtener los trabajos disponibles.' });
+      }
+      res.status(200).json(results);
+    });
+  });
+
+// Endpoint para registrar inicio o finalización del trabajo
+app.post('/usuario-trabajo', (req, res) => {
+    console.log('Datos recibidos en el servidor:', req.body); // Verifica los datos enviados
+  
+    const { usuarioId, trabajoId, accion } = req.body;
+  
+    // Validar los datos enviados
+    if (!usuarioId || !trabajoId || !accion) {
+      console.error('Datos incompletos:', req.body);
+      return res.status(400).json({ error: 'Faltan datos obligatorios en la solicitud.' });
+    }
+  
+    if (accion === 'iniciar') {
+      const query = `
+        INSERT INTO usuariotrabajo (fechainicio, fechatermino, trabajo_idtrabajo, usuario_id_user, activo)
+        VALUES (CURDATE(), NULL, ?, ?, 1)
+      `;
+      console.log('Ejecutando consulta SQL para iniciar:', query, [trabajoId, usuarioId]);
+  
+      db.query(query, [trabajoId, usuarioId], (err) => {
+        if (err) {
+          console.error('Error al ejecutar consulta:', err.stack);
+          return res.status(500).json({ error: 'Error al iniciar trabajo.', detalle: err.message });
+        }
+        res.status(200).json({ mensaje: 'Trabajo iniciado correctamente.' });
+      });
+  
+    } else if (accion === 'detener') {
+      const query = `
+        UPDATE usuariotrabajo
+        SET fechatermino = CURDATE(), activo = 0
+        WHERE usuario_id_user = ? AND trabajo_idtrabajo = ? AND activo = 1
+      `;
+      console.log('Ejecutando consulta SQL para detener:', query, [usuarioId, trabajoId]);
+  
+      db.query(query, [usuarioId, trabajoId], (err) => {
+        if (err) {
+          console.error('Error al ejecutar consulta:', err.stack);
+          return res.status(500).json({ error: 'Error al detener trabajo.', detalle: err.message });
+        }
+        res.status(200).json({ mensaje: 'Trabajo detenido correctamente.' });
+      });
+  
+    } else {
+      res.status(400).json({ error: 'Acción no válida. Use "iniciar" o "detener".' });
+    }
+  });
+  
+  
+  
+  
+  
