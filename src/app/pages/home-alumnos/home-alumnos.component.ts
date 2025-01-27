@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
+import { Trabajo, TrabajosService } from 'src/app/services/trabajos/trabajos.service';
 
 @Component({
   selector: 'app-home-alumnos',
@@ -18,11 +19,54 @@ export class HomeAlumnosComponent implements OnInit{
   trabajos: any[] = []; // Lista de trabajos disponibles
   trabajoActivo: any = null; // Trabajo actualmente activo
   tiempoInicio: number = 0; // Timestamp de inicio del trabajo
-  constructor (private http: HttpClient, private alertController: AlertController) {}
-  ngOnInit(){
+  trabajosRealizados: any[] = []; // Aquí se guardarán los trabajos realizados
+
+  constructor (private http: HttpClient, private alertController: AlertController,private trabajosService: TrabajosService) {}
+  ngOnInit() {
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      console.error('No se encontró el objeto "user" en localStorage');
+      return;
+    }
+
+    const parsedUser = JSON.parse(userData);
+    const usuarioId = parsedUser.id_user; // Obtén el ID del usuario logueado desde localStorage
+
+    this.obtenerTrabajosRealizados(usuarioId); // Llama al método para obtener trabajos realizados
     this.obtenerTrabajosDisponibles();
   }
-// Abrir el modal
+
+// Obtener trabajos realizados filtrados por usuario
+obtenerTrabajosRealizados(usuarioId: number) {
+  this.trabajosService.obtenerTrabajosRealizados(usuarioId).subscribe(
+    (data) => {
+      // Formatear los datos obtenidos
+      this.trabajosRealizados = data.map((trabajo) => {
+        const inicio = new Date(trabajo.fechainicio);
+        const fin = new Date(trabajo.fechatermino);
+        const horasTrabajadas = this.calcularHorasTrabajadas(inicio, fin);
+
+        return {
+          nombretrabajo: trabajo.nombretrabajo || 'Trabajo sin nombre',
+          fechainicio: inicio.toLocaleDateString(), // Formatear la fecha de inicio
+          horasTrabajadas: horasTrabajadas, // Calcular horas trabajadas
+        };
+      });
+      console.log('Trabajos realizados (formateados):', this.trabajosRealizados);
+    },
+    (error) => {
+      console.error('Error al obtener trabajos realizados:', error);
+    }
+  );
+}
+// Calcular horas
+calcularHorasTrabajadas(inicio: Date, fin: Date): number {
+  const diferenciaEnMilisegundos = fin.getTime() - inicio.getTime();
+  const diferenciaEnHoras = diferenciaEnMilisegundos / (1000 * 60 * 60);
+  return Math.ceil(diferenciaEnHoras); // Redondear hacia arriba si hay fracciones de hora
+}
+
+  // Abrir el modal
 openModal() {
   this.isModalOpen = true;
 }

@@ -247,7 +247,37 @@ app.post('/usuario-trabajo', (req, res) => {
       res.status(400).json({ error: 'Acción no válida. Use "iniciar" o "detener".' });
     }
   });
+
+// Endpoint para trabajos filtrados x usuario
+app.get('/usuario-trabajos/:usuarioId', (req, res) => {
+    const { usuarioId } = req.params;
   
+    if (!usuarioId) {
+      return res.status(400).json({ error: 'Falta el ID del usuario.' });
+    }
+  
+    const query = `
+        SELECT 
+        ut.trabajo_idtrabajo, 
+        t.nombretrabajo, 
+        ut.fechainicio, 
+        ut.fechatermino, 
+        ut.activo
+        FROM usuariotrabajo ut
+        JOIN trabajo t ON ut.trabajo_idtrabajo = t.idtrabajo
+        WHERE ut.usuario_id_user = ?
+        ORDER BY ut.fechainicio desc
+        LIMIT 3;
+    `;
+  
+    db.query(query, [usuarioId], (err, results) => {
+      if (err) {
+        console.error('Error al obtener trabajos realizados:', err.stack);
+        return res.status(500).json({ error: 'Error al obtener trabajos realizados.' });
+      }
+      res.status(200).json(results);
+    });
+  });
   
   
   

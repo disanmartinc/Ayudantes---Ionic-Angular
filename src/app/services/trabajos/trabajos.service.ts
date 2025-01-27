@@ -23,4 +23,9 @@ export class TrabajosService {
   obtenerTrabajos(): Observable<Trabajo[]> {
     return this.http.get<Trabajo[]>(this.apiUrl);
   }
+  // obtener trabajos realizados filtrados x id
+  obtenerTrabajosRealizados(usuarioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:3000/usuario-trabajos/${usuarioId}`);
+  }
+
 }
