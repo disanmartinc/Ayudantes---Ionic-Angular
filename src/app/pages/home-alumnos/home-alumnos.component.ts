@@ -43,8 +43,8 @@ obtenerTrabajosRealizados(usuarioId: number) {
       // Formatear los datos obtenidos
       this.trabajosRealizados = data.map((trabajo) => {
         const inicio = new Date(trabajo.fechainicio);
-        const fin = new Date(trabajo.fechatermino);
-        const horasTrabajadas = this.calcularHorasTrabajadas(inicio, fin);
+        const fin = trabajo.fechatermino ? new Date(trabajo.fechatermino) : null;
+        const horasTrabajadas = fin ? this.calcularHorasTrabajadas(inicio, fin) : 0;
 
         return {
           nombretrabajo: trabajo.nombretrabajo || 'Trabajo sin nombre',
@@ -62,9 +62,18 @@ obtenerTrabajosRealizados(usuarioId: number) {
 // Calcular horas
 calcularHorasTrabajadas(inicio: Date, fin: Date): number {
   const diferenciaEnMilisegundos = fin.getTime() - inicio.getTime();
-  const diferenciaEnHoras = diferenciaEnMilisegundos / (1000 * 60 * 60);
-  return Math.ceil(diferenciaEnHoras); // Redondear hacia arriba si hay fracciones de hora
+  const diferenciaEnMinutos = diferenciaEnMilisegundos / (1000 * 60); // Convertir a minutos
+
+  const horasCompletas = Math.floor(diferenciaEnMinutos / 60); // Horas completas
+  const minutosRestantes = diferenciaEnMinutos % 60; // Minutos restantes
+
+  // Si los minutos restantes son 15 o más, añade 1 hora
+  const horasTotales = minutosRestantes >= 15 ? horasCompletas + 1 : horasCompletas;
+
+  return horasTotales;
 }
+
+
 
   // Abrir el modal
 openModal() {

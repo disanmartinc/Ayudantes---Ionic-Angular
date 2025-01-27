@@ -215,7 +215,7 @@ app.post('/usuario-trabajo', (req, res) => {
     if (accion === 'iniciar') {
       const query = `
         INSERT INTO usuariotrabajo (fechainicio, fechatermino, trabajo_idtrabajo, usuario_id_user, activo)
-        VALUES (CURDATE(), NULL, ?, ?, 1)
+        VALUES (NOW(), NULL, ?, ?, 1)
       `;
       console.log('Ejecutando consulta SQL para iniciar:', query, [trabajoId, usuarioId]);
   
@@ -230,7 +230,7 @@ app.post('/usuario-trabajo', (req, res) => {
     } else if (accion === 'detener') {
       const query = `
         UPDATE usuariotrabajo
-        SET fechatermino = CURDATE(), activo = 0
+        SET fechatermino = NOW(), activo = 0
         WHERE usuario_id_user = ? AND trabajo_idtrabajo = ? AND activo = 1
       `;
       console.log('Ejecutando consulta SQL para detener:', query, [usuarioId, trabajoId]);
@@ -258,15 +258,15 @@ app.get('/usuario-trabajos/:usuarioId', (req, res) => {
   
     const query = `
         SELECT 
-        ut.trabajo_idtrabajo, 
-        t.nombretrabajo, 
+        ut.idusuariotrabajo, 
         ut.fechainicio, 
         ut.fechatermino, 
+        t.nombretrabajo, 
         ut.activo
         FROM usuariotrabajo ut
         JOIN trabajo t ON ut.trabajo_idtrabajo = t.idtrabajo
-        WHERE ut.usuario_id_user = ?
-        ORDER BY ut.fechainicio desc
+        WHERE ut.usuario_id_user = ? AND ut.fechatermino IS NOT NULL
+        ORDER BY ut.fechatermino DESC
         LIMIT 3;
     `;
   
